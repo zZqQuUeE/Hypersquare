@@ -22,6 +22,20 @@ function utils.sign(x)
         return -1
     end
 end
+function utils.lengthDirX(len, dir)
+    return len * math.cos(math.rad(dir))
+end
+function utils.lengthDirY(len, dir)
+    return -len * math.sin(math.rad(dir))
+end
+function utils.tableFind(tbl, val)
+    for i, v in ipairs(tbl) do
+        if v == val then
+            return true
+        end
+    end
+    return false
+end
 
 -- function utils.copyTable(t)
 --     local new = {}
