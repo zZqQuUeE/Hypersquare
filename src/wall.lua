@@ -3,7 +3,7 @@ local colorManager = require("src.colorManager")
 local pulse = require("src.pulse")
 local wall = {
     id = 100,
-    thick = 10,
+    thick = 20,
     spd = 250,
     instances = {}
 }
@@ -29,7 +29,7 @@ end
 
 function wall.draw()
     for i, v in ipairs(wall.instances) do
-        local col = colorManager.sideColor[v.side]
+        local col = colorManager.wallColor[v.side]
         love.graphics.setColor(col[1], col[2], col[3])
         if v.side == 1 then
             local px = pulse.x + pulse.actualSize/2

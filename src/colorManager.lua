@@ -1,7 +1,7 @@
 local colorManager = {
     color1 = {1, 1, 1},
     color2 = {0.3, 0.3, 0.3},
-    sideColor = { -- TODO 이거이름 wallColor로바꾸기
+    wallColor = {
         {0.7, 0.7, 0.7},
         {0.7, 0.7, 0.7},
         {0.7, 0.7, 0.7},
