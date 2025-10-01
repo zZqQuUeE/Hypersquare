@@ -3,8 +3,8 @@ local colorManager = require("src.colorManager")
 local pulse = require("src.pulse")
 local wall = {
     id = 100,
-    thick = 20,
-    spd = 250,
+    thick = 25,
+    spd = 600,
     instances = {}
 }
 

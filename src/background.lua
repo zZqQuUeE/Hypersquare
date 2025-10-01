@@ -20,7 +20,17 @@ function background.draw()
     love.graphics.rectangle("fill", pulse.x + pulse.actualSize / 2, -9999, 9999, 9999 + pulse.y - pulse.actualSize / 2)
     setcol(3)
     love.graphics.rectangle("fill", pulse.x - pulse.actualSize / 2, -9999, pulse.actualSize, 9999 + pulse.y - pulse.actualSize / 2)
-    
+    setcol(4)
+    love.graphics.rectangle("fill", pulse.x - pulse.actualSize / 2, pulse.y - pulse.actualSize / 2, -9999, -9999)
+    setcol(5)
+    love.graphics.rectangle("fill", pulse.x - pulse.actualSize / 2, pulse.y + pulse.actualSize / 2, -9999, -pulse.actualSize)
+    setcol(6)
+    love.graphics.rectangle("fill", pulse.x - pulse.actualSize / 2, pulse.y + pulse.actualSize / 2, -9999, 9999)
+    setcol(7)
+    love.graphics.rectangle("fill", pulse.x + pulse.actualSize / 2, pulse.y + pulse.actualSize / 2, -pulse.actualSize, 9999)
+    setcol(8)
+    love.graphics.rectangle("fill", pulse.x + pulse.actualSize / 2, pulse.y + pulse.actualSize / 2, 9999, 9999)
+
     love.graphics.setColor(1,1,1,1)
 end
 

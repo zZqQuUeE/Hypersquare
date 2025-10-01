@@ -4,7 +4,10 @@ local pulse = require("src.pulse")
 local wall = require("src.wall")
 local debug = {}
 
+love.audio.play(love.audio.newSource("assets/sounds/hexagon.mp3", "static"))
+
 function debug.update(dt)
+
     -- 키입력테스트
     if input.isPressed("f") then
         -- local asdf = math.random(0, 1)
@@ -14,6 +17,7 @@ function debug.update(dt)
             
         -- end
         attackManager.tunnel2()
+        --pulse.targetY = math.random(love.graphics.getHeight())
         --pulse.sizeOffset = 30
         --wall.newInstance(1)
         --wall.newInstance(2)

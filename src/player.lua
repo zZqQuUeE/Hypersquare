@@ -7,7 +7,7 @@ local player = {
     tangle = 0,
     focus = false,
     mujeok = false,
-    spd = 0.6 -- lerp(a, b, amt) 에서 amt 부분 (1이최대)
+    spd = 0.5 -- lerp(a, b, amt) 에서 amt 부분 (1이최대)
 }
 
 local lp = false
