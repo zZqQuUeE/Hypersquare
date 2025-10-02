@@ -1,8 +1,8 @@
 local utils = require("src.utils")
 local colorManager = require("src.colorManager")
 
-local screenW = 1280
-local screenH = 720
+local screenW = 1920
+local screenH = 3600
 local pulse = {
     size = 50,
     sizeOffset = 0,

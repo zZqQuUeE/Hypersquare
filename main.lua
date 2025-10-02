@@ -30,11 +30,11 @@ function love.load()
     pulse.load()
 
     -- 해상도
-    gameCanvas = love.graphics.newCanvas(1280, 720)
+    gameCanvas = love.graphics.newCanvas(1920, 3600)
     love.window.setMode(screenW, screenH, {
         fullscreen = true,
         resizable = true,
-        vsync = 1,
+        vsync = 0,
         msaa = 0
     })
 end
@@ -50,7 +50,7 @@ end
 -- 업뎃
 function love.update(dt)
     _G.cameraTilt = math.sin(love.timer.getTime())*0.3 + 0.7
-    _G.cameraAngle = _G.cameraAngle + 300 * dt
+    _G.cameraAngle = _G.cameraAngle + 300 * dt * utils.sign(math.sin(love.timer.getTime()/2))
     debug.update(dt)
 
     -- ~~Manager
@@ -94,10 +94,11 @@ function love.draw()
     local bx, by = 1280, 720-- * math.min(_G.cameraTilt, 1)
     local scale = math.max(screenW / bx, screenH / by)
 
-    local offsetX = (screenW - bx * scale) / 2
-    local offsetY = (screenH - by * scale) / 2
+    --local offsetX = (screenW - bx * scale) / 2
+    --local offsetY = (screenH - by * scale) / 2
+    --offsetY = (screenH - by * scale * math.min(_G.cameraTilt, 1)) / 2
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(gameCanvas, offsetX, offsetY, 0, scale, scale * math.min(_G.cameraTilt, 1))
+    love.graphics.draw(gameCanvas, screenW/2, screenH/2, 0, scale, scale * math.min(_G.cameraTilt, 1), gameCanvas:getWidth()/2, gameCanvas:getHeight()/2)
 
     -- ui그리기
     ui.draw()
