@@ -1,8 +1,9 @@
-_G.cameraAngle = 0
+_G.cameraAngle = 45
+_G.cameraTilt = 0.8
 
 --#region 모듈불러오기
 -- 기본적인거
-local utils = require("src.input")
+local utils = require("src.utils")
 local input = require("src.input")
 
 -- 게임중기본적인거
@@ -21,8 +22,7 @@ local debug = require("test.debug")
 
 --#region 변수들
 local gameCanvas
-local screenW = love.graphics.getWidth()
-local screenH = love.graphics.getHeight()
+local screenW, screenH = love.graphics.getDimensions()
 --#endregion
 
 -- 로드
@@ -30,12 +30,12 @@ function love.load()
     pulse.load()
 
     -- 해상도
-    gameCanvas = love.graphics.newCanvas(1920, 1080)
+    gameCanvas = love.graphics.newCanvas(1280, 720)
     love.window.setMode(screenW, screenH, {
-        fullscreen = false,   -- 전체화면
-        resizable = true,   -- 창 크기 조절 가능 여부
-        vsync = 1,           -- 수직동기화 (0 = 끔, 1 = 켬)
-        msaa = 1             -- 안티앨리어싱
+        fullscreen = true,
+        resizable = true,
+        vsync = 1,
+        msaa = 0
     })
 end
 
@@ -49,6 +49,8 @@ end
 
 -- 업뎃
 function love.update(dt)
+    _G.cameraTilt = math.sin(love.timer.getTime())*0.3 + 0.7
+    _G.cameraAngle = _G.cameraAngle + 300 * dt
     debug.update(dt)
 
     -- ~~Manager
@@ -66,11 +68,6 @@ function love.update(dt)
     end
 
     input.update()
-end
-
-function love.resize(w, h)
-    screenW = love.graphics.getWidth()
-    screenH = love.graphics.getHeight()
 end
 
 -- 그리기
@@ -93,13 +90,14 @@ function love.draw()
     love.graphics.setCanvas()
 
     -- 게임캔버스그리기
-    local bx = 1920
-    local by = 1080
+    screenW, screenH = love.graphics.getDimensions()
+    local bx, by = 1280, 720-- * math.min(_G.cameraTilt, 1)
     local scale = math.max(screenW / bx, screenH / by)
+
     local offsetX = (screenW - bx * scale) / 2
     local offsetY = (screenH - by * scale) / 2
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(gameCanvas, offsetX, offsetY, 0, scale, scale)
+    love.graphics.draw(gameCanvas, offsetX, offsetY, 0, scale, scale * math.min(_G.cameraTilt, 1))
 
     -- ui그리기
     ui.draw()

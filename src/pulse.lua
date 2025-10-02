@@ -1,10 +1,10 @@
 local utils = require("src.utils")
 local colorManager = require("src.colorManager")
 
-local screenW = love.graphics.getWidth()
-local screenH = love.graphics.getHeight()
+local screenW = 1280
+local screenH = 720
 local pulse = {
-    size = 90,
+    size = 50,
     sizeOffset = 0,
     offsetSpeed = 2.2, -- sizeOffset이 줄거나 느는속도
     bpm = 129, -- -1이면 무효, 0이상아면 60/n 초 마다 sizeOffset 의 값이 bpmSizeOffset 의 값이 된다

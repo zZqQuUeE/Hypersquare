@@ -17,10 +17,8 @@ local rr = false
 local guiw = love.graphics.getWidth()
 function love.touchpressed(id, x)
   if x > guiw/2 then
-    require("src.attackManager").tunnel2()
     rp = true
   elseif x < guiw/2 then
-    require("src.attackManager").tunnel1()
     lp = true
   end
 end
@@ -45,7 +43,7 @@ function player.update(dt)
     if input.isReleased("d") or rr then
         player.tangle = player.tangle - 45
     end
-    player.angle = utils.lerp(player.angle, player.tangle, player.spd)
+    player.angle = utils.lerp(player.angle, player.tangle, 1 - math.exp(-player.spd * dt * 60))
     lp = false
     rp = false
     lr = false
@@ -53,8 +51,8 @@ function player.update(dt)
 end
 
 function player.draw()
-    local x = pulse.x + utils.lengthDirX(pulse.actualSize, player.angle)
-    local y = pulse.y + utils.lengthDirY(pulse.actualSize, player.angle)
+    local x = pulse.x + utils.lengthDirX(pulse.actualSize*0.9, player.angle)
+    local y = pulse.y + utils.lengthDirY(pulse.actualSize*0.9, player.angle)
     love.graphics.setColor(colorManager.color1[1], colorManager.color1[2], colorManager.color1[3])
     love.graphics.rectangle("fill", x - 5, y - 5, 10, 10)
     love.graphics.setColor(1, 1, 1, 1)
