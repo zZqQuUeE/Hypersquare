@@ -7,7 +7,7 @@ local pulse = {
     size = 50,
     sizeOffset = 0,
     offsetSpeed = 2.2, -- sizeOffset이 줄거나 느는속도
-    bpm = 129, -- -1이면 무효, 0이상아면 60/n 초 마다 sizeOffset 의 값이 bpmSizeOffset 의 값이 된다
+    bpm = 172, -- -1이면 무효, 0이상아면 60/n 초 마다 sizeOffset 의 값이 bpmSizeOffset 의 값이 된다
     bpmSizeOffset = 70,
     outline = 10, -- 외곽선 두께 (0.5배됨 6은 실제로 두께 3인거)
     actualSize = 60,
@@ -28,26 +28,27 @@ local beatIndex = 1
 function pulse.update(dt)
     pulse.actualSize = pulse.size + pulse.sizeOffset
     
-    -- TODO 비피앰맞춰서 크기바꾸기 (이건임시) (브금만들고온다)
+    -- TODO 비피앰맞춰서 크기바꾸기, 공격 (이건임시) (브금만들고온다)
     local aaaClock = love.timer.getTime()
     if aaaClock > beatIndex * 60/pulse.bpm then
         pulse.sizeOffset = pulse.bpmSizeOffset
         beatIndex = beatIndex + 1
         local wall = require("src.wall")
-        for i=1, 8 do
-            if math.random() < 0.3 then
-                local attackManager = require("src.attackManager")
-                local rng = math.random(1, 7)
-                if rng <= 2 then
-                    attackManager.tunnel2()
-                elseif rng <= 4 then
-                    attackManager.tunnel1()
-                elseif rng <= 6  then
-                    attackManager.tunnel4()
-                else
-                    attackManager.tunnel3()
-                end
-            end
+        --require("src.attackManager").barrage1()
+        local attackManager = require("src.attackManager")
+        local rng = math.random(1, 5)
+        if rng <= 1 then
+            attackManager.tunnel2()
+        elseif rng <= 2 then
+            attackManager.tunnel1()
+        elseif rng <= 3  then
+            attackManager.tunnel4()
+        elseif rng <= 4 then
+            attackManager.tunnel3()
+        elseif math.random() < 0.5 then
+            attackManager.barrage2()
+        else
+            attackManager.barrage1()
         end
     end
     

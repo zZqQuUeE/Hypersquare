@@ -4,7 +4,7 @@ local pulse = require("src.pulse")
 local wall = require("src.wall")
 local debug = {}
 
-love.audio.play(love.audio.newSource("assets/sounds/hexagon.mp3", "static"))
+love.audio.play(love.audio.newSource("assets/sounds/suwa.ogg", "static"))
 
 function debug.update(dt)
 

@@ -1,10 +1,10 @@
-local utils = require("src.input")
+local utils = require("src.utils")
 local colorManager = require("src.colorManager")
 local pulse = require("src.pulse")
 local wall = {
     id = 100,
     thick = 25,
-    spd = 600,
+    spd = 700,
     instances = {}
 }
 
@@ -20,7 +20,7 @@ end
 
 function wall.newInstance(s)
     local ins = {
-        dist = 900,
+        dist = 1000,
         side = s,
         thick = -wall.thick
     }

@@ -17,8 +17,6 @@ function attackManager.tunnel1()
     end
     table.insert(attackManager.queue, aaa)
     table.insert(attackManager.queue, {0})
-    table.insert(attackManager.queue, {0})
-    table.insert(attackManager.queue, {0})
 end
 function attackManager.tunnel2()
     local s = math.random(1, 4) * 2 - 1
@@ -29,7 +27,6 @@ function attackManager.tunnel2()
         end
     end
     table.insert(attackManager.queue, aaa)
-    table.insert(attackManager.queue, {0})
     table.insert(attackManager.queue, {0})
 end
 function attackManager.tunnel3()
@@ -47,7 +44,6 @@ function attackManager.tunnel3()
         ii = ii - utils.sign(ii)
     until (ii == 0)
     table.insert(attackManager.queue, {0})
-    table.insert(attackManager.queue, {0})
 end
 function attackManager.tunnel4()
     local s = math.random(1, 4) * 2 - 1
@@ -64,11 +60,46 @@ function attackManager.tunnel4()
         table.insert(attackManager.queue, aaa)
         table.insert(attackManager.queue, {0})
     end
+    --table.insert(attackManager.queue, {0})
+end
+function attackManager.barrage1()
+    local aaa 
+    if math.random() > 0.5 then
+        aaa = {1, 2, 5, 6}
+        table.insert(attackManager.queue, aaa)
+    end
+    aaa = {3, 4, 7, 8}
+    table.insert(attackManager.queue, aaa)
+    aaa = {1, 2, 5, 6}
+    table.insert(attackManager.queue, aaa)
+    aaa = {3, 4, 7, 8}
+    table.insert(attackManager.queue, aaa)
+    aaa = {1, 2, 5, 6}
+    table.insert(attackManager.queue, aaa)
+    table.insert(attackManager.queue, {0})
+end
+function attackManager.barrage2()
+    local aaa 
+    if math.random() > 0.5 then
+        aaa = {1, 3, 5, 7}
+        table.insert(attackManager.queue, aaa)
+    end
+    aaa = {2, 4, 6, 8}
+    table.insert(attackManager.queue, aaa)
+    aaa = {1, 3, 5, 7}
+    table.insert(attackManager.queue, aaa)
+    aaa = {2, 4, 6, 8}
+    table.insert(attackManager.queue, aaa)
+    aaa = {1, 3, 5, 7}
+    table.insert(attackManager.queue, aaa)
+    aaa = {2, 4, 6, 8}
+    table.insert(attackManager.queue, aaa)
+    table.insert(attackManager.queue, {0})
 end
 
 local queueIndex = 1
 local queueTimer = 1
-local delay = .25 -- TODO 이건임시
+local delay = .3 -- TODO 이건임시
 
 function attackManager.update(dt)
     local t = love.timer.getTime()
