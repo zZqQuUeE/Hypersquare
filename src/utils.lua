@@ -7,6 +7,16 @@ function utils.CCCollision(x1, y1, r1, x2, y2, r2) -- 판정1: Circle 모양 판
     local dist = (x2-x1)^2 + (y2-y1)^2
     return dist <= (r1 + r2)^2
 end
+function utils.pointInRect_TopLeft(px, py, rx, ry, rw, rh, inclusive)
+    -- 1) 좌상단(x,y) 기준: rect = {x, y, width, height}
+    -- inclusive=true 이면 경계(테두리)에 있는 점도 '내부'로 본다 (기본 true)
+    inclusive = (inclusive == nil) and true or inclusive
+    if inclusive then
+        return px >= rx and px <= rx + rw and py >= ry and py <= ry + rh
+    else
+        return px >  rx and px <  rx + rw and py >  ry and py <  ry + rh
+    end
+end
 function utils.lerp(a, b, t)
     return a + (b - a) * t
 end

@@ -1,0 +1,45 @@
+{
+    // 파일명은 레벨마다 고유해야 한다.
+    
+    // 레벨의 기본적인 정보들, 왼쪽 아래에 나타난다.
+    "name": "A S K L",
+    "description": "Your thirst for blood continues? Very well, let the blood spill. Let the demons feed off your unfortunate soul...\n응애!!!!!",
+    "author": "Zzenko",
+    
+    // 메인 화면에서 색상. 0-1 RGB 형태.
+    "color1": [0.6, 1, 0.6],
+    "color2": [0, 0, 0],
+    "backgroundColor": [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ],
+    // 메인 화면에서 회전 속도.
+    "menuRotateSpeed": 100,
+    
+    // 메인 화면에서 레벨의 순서. 높을수록 뒤에 있다.
+    "menuPriority": 10,
+    // 메인 화면에서 선택 가능의 여부.
+    "selectable": true,
+    
+    // 배경음악 파일명.
+    "music": "assets/sounds/suwa.ogg",
+    // !!OUTDATED!! 배경음악의 시작 시간. "startPos" 이벤트로 대체.
+    // "musicStartPositions": [0, 13.9, 36],
+    // !!OUTDATED!! 레벨이 끝나는 시간. 0 이하일 경우 끝나지 않는다. "endLevel" 이벤트로 대체.
+    // "endsAt": 45,
+    // 다음 레벨의 파일명. 경로와 확장자명은 생략한다.
+    "linkedLevel": "dfjk",
+    
+    // 이벤트.
+    "Event": {
+        "BPM": 172,
+        "speed": 4,
+        "patterns": [
+            ["camBeat1", "", "", "", "camBeat1", "", "", "", "camBeat1", "", "", "", "camBeat1", "", "", ""]
+        ],
+        "arguments": [],
+        "sequence": [1, 1, 1, 1]
+    }
+}

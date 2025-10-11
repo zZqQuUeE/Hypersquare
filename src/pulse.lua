@@ -26,31 +26,54 @@ end
 
 local beatIndex = 1
 function pulse.update(dt)
+    if require("src.player").dead then
+        beatIndex = 0
+        return false
+    end
     pulse.actualSize = pulse.size + pulse.sizeOffset
     
-    -- TODO 비피앰맞춰서 크기바꾸기, 공격 (이건임시) (브금만들고온다)
-    local aaaClock = love.timer.getTime()
-    if aaaClock > beatIndex * 60/pulse.bpm then
-        pulse.sizeOffset = pulse.bpmSizeOffset
-        beatIndex = beatIndex + 1
-        local wall = require("src.wall")
-        --require("src.attackManager").barrage1()
-        local attackManager = require("src.attackManager")
-        local rng = math.random(1, 5)
-        if rng <= 1 then
-            attackManager.tunnel2()
-        elseif rng <= 2 then
-            attackManager.tunnel1()
-        elseif rng <= 3  then
-            attackManager.tunnel4()
-        elseif rng <= 4 then
-            attackManager.tunnel3()
-        elseif math.random() < 0.5 then
-            attackManager.barrage2()
-        else
-            attackManager.barrage1()
-        end
-    end
+    -- _G.cameraTilt = math.sin(love.timer.getTime()/4*math.pi/(60/172)) * 0.2 + 0.8
+    -- _G.cameraAngle = _G.cameraAngle + 250 * dt * utils.sign(math.sin(love.timer.getTime()/8*math.pi/(60/172)))
+    -- if math.sin(_G.gameTimer*2*math.pi/(60/172/4)) > 0 then
+    --     colorManager.wallColor = {
+    --     {0.2, 0.9, 0.2},
+    --     {0.8, 1, 0.2},
+    --     {0.2, 0.9, 0.2},
+    --     {0.8, 1, 0.2},
+    --     {0.2, 0.9, 0.2}
+    --     {0.8, 1, 0.2},
+    --     {0.2, 0.9, 0.2},
+    --     {0.8, 1, 0.2}
+    -- }
+    -- else
+    --     colorManager.wallColor = {
+    --     {0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},{0.5, 1, 0.5},
+    -- }
+    -- end
+    
+    -- if _G.gameTimer > beatIndex * 60/pulse.bpm then
+    --     pulse.sizeOffset = pulse.bpmSizeOffset
+    --     beatIndex = beatIndex + 1
+    --     local wall = require("src.wall")
+    --     --require("src.attackManager").barrage1()
+    --     local attackManager = require("src.attackManager")
+    --     local rng = math.random(1, 6)
+    --     if rng <= 1 then
+    --         attackManager.tunnel2()
+    --     elseif rng <= 2 then
+    --         attackManager.tunnel1()
+    --     elseif rng <= 3  then
+    --         attackManager.tunnel4()
+    --     elseif rng <= 4 then
+    --         attackManager.tunnel3()
+    --     elseif rng <= 5 then
+    --         attackManager.pillar1()
+    --     elseif math.random() < 0.5 then
+    --         attackManager.barrage2()
+    --     else
+    --         attackManager.barrage1()
+    --     end
+    -- end
     
     -- 크기오프셋 줄이기
     if math.abs(pulse.sizeOffset) <= 1 then

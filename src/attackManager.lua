@@ -1,5 +1,6 @@
 local utils = require("src.utils")
 local wall = require("src.wall")
+local player = require("src.player")
 local attackManager = {
   queue = {}
 }
@@ -96,19 +97,60 @@ function attackManager.barrage2()
     table.insert(attackManager.queue, aaa)
     table.insert(attackManager.queue, {0})
 end
+function attackManager.pillar1()
+    local pillarSide = math.random(1, 4) * 2 + 9
+    for ii = 1, math.random(1, 2) do
+        table.insert(attackManager.queue, {pillarSide, pillarSide-1, pillarSide-2, pillarSide-3, pillarSide-4, pillarSide-5, -1})
+        for i=1, 20 do
+            table.insert(attackManager.queue, {pillarSide, -1})
+        end
+        table.insert(attackManager.queue, {pillarSide, pillarSide+1, pillarSide+2, pillarSide+3, pillarSide+4, pillarSide+5, -1})
+        for i=1, 20 do
+            table.insert(attackManager.queue, {pillarSide, -1})
+        end
+    end
+    table.insert(attackManager.queue, {0})
+end
+-- function attackManager.pillar2() TOOHARD
+--     local pillarSide = math.random(1, 4) * 2 + 9
+--     for ii = 1, math.random(1, 2) do
+--         table.insert(attackManager.queue, {pillarSide, pillarSide-1, pillarSide-2, pillarSide-3, pillarSide-4, pillarSide-5, pillarSide-6, -1})
+--         for i=1, 20 do
+--             table.insert(attackManager.queue, {pillarSide, -1})
+--         end
+--         table.insert(attackManager.queue, {pillarSide, pillarSide+1, pillarSide+2, pillarSide+3, pillarSide+4, pillarSide+5, pillarSide+6, -1})
+--         for i=1, 20 do
+--             table.insert(attackManager.queue, {pillarSide, -1})
+--         end
+--     end
+--     table.insert(attackManager.queue, {0})
+-- end
 
 local queueIndex = 1
 local queueTimer = 1
-local delay = .3 -- TODO 이건임시
+local queueTimerOffset = 0
+local delay = 99999999999999
 
 function attackManager.update(dt)
-    local t = love.timer.getTime()
-    if t >= queueTimer * delay then
+    if player.dead then
+        queueIndex = 1
+        queueTimer = 1
+        queueTimerOffset = 0
+        return false
+    end
+    
+    --_G.testValue = queueTimerOffset
+    -- 큐 처리
+    local t = _G.gameTimer
+    if t >= (queueTimer - queueTimerOffset) * delay then
         if #attackManager.queue >= queueIndex then
             for i, v in ipairs(attackManager.queue[queueIndex]) do
                 if v > 0 then
                     local bozo = ((v - 1) % 8) + 1
                     wall.newInstance(bozo)
+                end
+                if v == -1 then
+                    queueTimerOffset = queueTimerOffset + .9
                 end
             end
             queueIndex = queueIndex + 1

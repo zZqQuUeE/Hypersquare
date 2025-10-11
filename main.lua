@@ -1,10 +1,19 @@
-_G.cameraAngle = 45
+_G.cameraAngle = 0
 _G.cameraTilt = 1
+_G.cameraRotateSpeed = 0
+--_G.gameStarted = false
+_G.gameTimer = -1
+_G.testValue = false
+_G.inLevelSelect = true
 
 --#region 모듈불러오기
+-- 라이브러리
+local dkjson = require("libs.dkjson")
+
 -- 기본적인거
 local utils = require("src.utils")
 local input = require("src.input")
+local touchManager = require("src.touchManager")
 
 -- 게임중기본적인거
 local background = require("src.background")
@@ -12,11 +21,13 @@ local pulse = require("src.pulse")
 local wall  = require("src.wall")
 local player = require("src.player")
 local attackManager = require("src.attackManager")
+local audioManager = require("src.audioManager")
 
 -- 유아이
 local ui = require("src.ui")
 
--- 테스트용
+-- 기타등듣
+local mainMenu = require("src.mainMenu")
 local debug = require("test.debug")
 --#endregion
 
@@ -26,18 +37,21 @@ local wallCanvas
 local backgroundCanvas
 local uiCanvas
 local screenW, screenH = love.graphics.getDimensions()
+
+local startGameTimer = 0
 --#endregion
 
 -- 로드
 function love.load()
+    mainMenu.load()
     ui.load()
     pulse.load()
 
     -- 해상도
     love.window.setMode(screenW, screenH, {
         fullscreen = false,
-        resizable = true,
-        vsync = 0,
+        resizable = false,
+        vsync = 1,
         msaa = 4
     })
     gameCanvas = love.graphics.newCanvas(1920, 3600)
@@ -56,10 +70,28 @@ function love.keyreleased(key)
 end
 
 -- 업뎃
+local musicPositions = {0, 13.9, 36} -- TODO 이건임시
 function love.update(dt)
-    _G.cameraTilt = math.sin(love.timer.getTime()/4*math.pi/(60/172)) * 0.2 + 0.8
-    print(_G.cameraTilt)
-    _G.cameraAngle = _G.cameraAngle + 150 * dt * utils.sign(math.sin(love.timer.getTime()/8*math.pi/(60/172)))
+    _G.cameraAngle = _G.cameraAngle + dt * _G.cameraRotateSpeed
+    
+    if not player.dead then
+        if startGameTimer == -1 then
+            startGameTimer = love.timer.getTime()
+            if nil == audioManager.music then
+                audioManager.newMusic("assets/sounds/suwa.ogg")
+            else
+                audioManager.music:play()
+                audioManager.music:seek(musicPositions[math.random(1, #musicPositions)])
+            end
+        end
+        _G.gameTimer = love.timer.getTime() - startGameTimer
+    else
+        startGameTimer = -1
+        if audioManager.music then
+            audioManager.music:stop()
+        end
+    end
+    
     debug.update(dt)
 
     -- ~~Manager
@@ -72,12 +104,13 @@ function love.update(dt)
 
     -- ui
     ui.update(dt)
-    if input.isPressed("f11") then
-        love.window.setFullscreen(not love.window.getFullscreen())
-    end
-
-    -- 입력
+    
+    -- 기타등등
+    mainMenu.update(dt)
+    
+    -- 입력처리
     input.update()
+    touchManager.update()
 end
 
 -- 그리기
@@ -149,14 +182,14 @@ function love.draw()
     -- 캔버스그리기
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(backgroundCanvas, screenW/2, screenH/2, 0, scale, scale * math.min(_G.cameraTilt, 1), backgroundCanvas:getWidth()/2, backgroundCanvas:getHeight()/2)
-    threeD(wallCanvas)
     threeD(gameCanvas)
+    threeD(wallCanvas)
     love.graphics.draw(wallCanvas, screenW/2, screenH/2, 0, scale, scale * math.min(_G.cameraTilt, 1), wallCanvas:getWidth()/2, wallCanvas:getHeight()/2)
     love.graphics.draw(gameCanvas, screenW/2, screenH/2, 0, scale, scale * math.min(_G.cameraTilt, 1), gameCanvas:getWidth()/2, gameCanvas:getHeight()/2)
 
     -- ui그리기
     local scope = 1
-	if screenW / 1280 > screenH / 720 then
+	if screenW / 1280 < screenH / 720 then
 		scope = screenH / 720
 	else
 		scope = screenW / 1280

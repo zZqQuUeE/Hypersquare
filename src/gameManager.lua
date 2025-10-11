@@ -1,0 +1,3 @@
+local gameManager = {}
+
+return gameManager
